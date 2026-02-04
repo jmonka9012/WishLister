@@ -13,7 +13,7 @@ class MojaApka extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: Text(
-            'Cześć, Jacek!',
+            'Cześć, Jacek! Test',
             style: TextStyle(fontSize: 24),
           ),
         ),
