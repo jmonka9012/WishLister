@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MojaApka());
+  runApp(const WishLister());
 }
 
-class MojaApka extends StatelessWidget {
-  const MojaApka({super.key});
+class WishLister extends StatelessWidget {
+  const WishLister({super.key});
 
   @override
   Widget build(BuildContext context) {
