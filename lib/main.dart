@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'register_screen.dart'; // import pliku wyżej
+import 'signin_screen.dart'; // import pliku wyżej
 import 'firebase_options.dart'; // ten plik wygeneruje Ci 'flutterfire configure'
 
 void main() async {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const RegistrationScreen(),
+      home: const SignInScreen(),
     );
   }
 }

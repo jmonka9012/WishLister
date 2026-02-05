@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart'; // Potrzebne do ograniczenia wpisywania tylko cyfr
+import 'home_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -49,35 +50,40 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<void> _registerUser() async {
-    try {
-      // Łączymy prefix z wpisanym numerem
-      String fullPhoneNumber = "+48${_phoneController.text.trim()}";
+  try {
+    String fullPhoneNumber = "+48${_phoneController.text.trim()}";
 
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text,
+    );
 
-      String uid = userCredential.user!.uid;
+    String uid = userCredential.user!.uid;
 
-      // Zapisujemy w bazie
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'displayName': _displayNameController.text,
-        'login': _loginController.text,
-        'email': _emailController.text.trim(),
-        'phoneNumber': fullPhoneNumber, // Zapisujemy pełny format +48...
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+    // Zapisujemy w bazie
+    await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'displayName': _displayNameController.text,
+      'login': _loginController.text,
+      'email': _emailController.text.trim(),
+      'phoneNumber': fullPhoneNumber,
+      'createdAt': FieldValue.serverTimestamp(),
+      'isAdmin': false,   // Domyślnie zwykły user
+      'isPremium': false, // Domyślnie brak premium
+    });
 
-      print("Konto założone! Numer: $fullPhoneNumber");
-      
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Błąd: ${e.message}')),
-      );
-    }
+    print("Konto założone! Admin: false, Premium: false");
+    
+    Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+  } on FirebaseAuthException catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Błąd: ${e.message}')),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
