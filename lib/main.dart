@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wishlister',
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.cinnamonrollTheme,
       // Czy jest zalogowany?
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),

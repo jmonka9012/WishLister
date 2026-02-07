@@ -13,12 +13,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wishlister"),
+        title: const Text("WishLister"),
         centerTitle: true,
       ),
       
       // 3. TUTAJ PODPINAMY NASZE NOWE MENU
-      drawer: const SideMenu(), 
+      drawer: const SideMenu(currentRoute: 'home'),
       
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                'Witamy w Wishlister! To jest strona główna, w przyszłości prawdopobonie damy tu jakieś aktualności, co nowego chcą znajomi, albo widok naszej listy - zobaczymy',
+                'Witamy w Wishlister! To jest strona główna, w przyszłości prawdopobonie damy tu jakieś aktualności, co nowego chcą znajomi, albo widok naszej listy - zobaczymy. No i pewnie zmienimy te cringową nazwę.',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'side_menu.dart'; 
+import 'side_menu.dart';
 
 class FriendsScreen extends StatefulWidget {
   const FriendsScreen({super.key});
@@ -12,12 +12,9 @@ class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("WishLister"),
-        centerTitle: true,
-      ),
-      
-      drawer: const SideMenu(), 
+      appBar: AppBar(title: const Text("WishLister"), centerTitle: true),
+
+      drawer: const SideMenu(currentRoute: 'friends'),
       
       body: Padding(
         padding: const EdgeInsets.all(16.0),

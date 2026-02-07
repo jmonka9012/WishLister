@@ -18,7 +18,7 @@ class _MyPreferencesScreenState extends State<MyPreferencesScreen> {
       ),
       
       // 3. TUTAJ PODPINAMY NASZE NOWE MENU
-      drawer: const SideMenu(), 
+      drawer: const SideMenu(currentRoute: "preferences"), 
       
       body: Padding(
         padding: const EdgeInsets.all(16.0),

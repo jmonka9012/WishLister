@@ -18,7 +18,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       
       // 3. TUTAJ PODPINAMY NASZE NOWE MENU
-      drawer: const SideMenu(), 
+      drawer: const SideMenu(currentRoute: 'settings'),
       
       body: Padding(
         padding: const EdgeInsets.all(16.0),

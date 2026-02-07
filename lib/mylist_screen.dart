@@ -18,7 +18,7 @@ class _MyListScreenState extends State<MyListScreen> {
       ),
       
       // 3. TUTAJ PODPINAMY NASZE NOWE MENU
-      drawer: const SideMenu(), 
+      drawer: const SideMenu(currentRoute: "mylist"), 
       
       body: Padding(
         padding: const EdgeInsets.all(16.0),
