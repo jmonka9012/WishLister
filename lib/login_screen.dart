@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // 1. Potrzebne do sprawdzenia bazy
 import 'home_screen.dart';
+import 'welcome_screen.dart'; // 2. Potrzebne do przekierowania
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,23 +17,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-  // Pusta funkcja logowania (uzupełnimy w następnym kroku)
   Future<void> _loginUser() async {
-    // 1. Blokujemy przycisk i pokazujemy kręciołek
     setState(() {
       _isLoading = true;
     });
 
     try {
-      // 2. Strzał do Firebase (to może potrwać sekundę)
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text
-            .trim(), // trim() usuwa spacje, jeśli user wkleił maila
+      // A. Logowanie w Firebase Auth
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
         password: _passwordController.text,
       );
 
-      // 3. Jeśli kod doszedł tu, to znaczy, że nie było błędu!
-      print("SUKCES: Użytkownik zalogowany!");
+      // B. Jeśli logowanie przeszło, sprawdzamy bazę danych Firestore
+      User user = userCredential.user!;
+      
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      bool isProfileCompleted = false;
+
+      // Sprawdzamy czy dokument istnieje i czy ma flagę
+      if (userDoc.exists && userDoc.data() != null) {
+        Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+        isProfileCompleted = data['isProfileCompleted'] ?? false;
+      }
+
+      print("SUKCES: Zalogowano. Profil uzupełniony: $isProfileCompleted");
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -40,28 +54,35 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+        // C. Decyzja gdzie przekierować
+        // Używamy pushReplacement, żeby nie dało się cofnąć do logowania strzałką
+        if (isProfileCompleted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+          );
+        }
       }
 
     } on FirebaseAuthException catch (e) {
-      // 4. Obsługa błędów (np. złe hasło, brak internetu)
-      print("BŁĄD: ${e.code}");
-
+      // Obsługa błędów Firebase
       String message = "Wystąpił błąd logowania";
 
-      // Tłumaczenie błędów na polski
-      if (e.code == 'user-not-found') {
-        message = "Nie ma takiego użytkownika.";
+      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+        message = "Błędny email lub hasło.";
       } else if (e.code == 'wrong-password') {
-        // Uwaga: Firebase czasem zwraca ogólny błąd dla bezpieczeństwa
         message = "Błędne hasło.";
       } else if (e.code == 'invalid-email') {
         message = "Błędny format emaila.";
-      } else if (e.code == 'invalid-credential') {
-        message = "Błędne dane logowania.";
+      } else if (e.code == 'too-many-requests') {
+        message = "Za dużo prób logowania. Spróbuj później.";
       }
+
+      print("BŁĄD FIREBASE: ${e.code}");
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -69,18 +90,17 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } catch (e) {
-      // Inne błędy (np. brak internetu w telefonie)
-      print(e);
+      // Inne błędy (np. brak internetu przy pobieraniu profilu)
+      print("BŁĄD OGÓLNY: $e");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Błąd połączenia."),
+            content: Text("Błąd połączenia. Sprawdź internet."),
             backgroundColor: Colors.red,
           ),
         );
       }
     } finally {
-      // 5. Na koniec ZAWSZE odblokowujemy przycisk (nieważne czy sukces, czy błąd)
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -96,45 +116,37 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          // Wyśrodkowanie góra-dół
           child: SingleChildScrollView(
-            // Żeby klawiatura nie zasłaniała pól
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // 1. Pole Email
                 TextField(
                   controller: _emailController,
-                  keyboardType: TextInputType.emailAddress, // Klawiatura z @
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email),
                   ),
                 ),
-
-                const SizedBox(height: 16), // Odstęp
-                // 2. Pole Hasło
+                const SizedBox(height: 16),
                 TextField(
                   controller: _passwordController,
-                  obscureText: true, // Ukrywanie znaków (kropki)
+                  obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Hasło',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock),
                   ),
                 ),
-
-                const SizedBox(height: 24), // Większy odstęp przed przyciskiem
-                // 3. Przycisk Logowania
+                const SizedBox(height: 24),
                 SizedBox(
-                  width: double.infinity, // Rozciągnij na szerokość
+                  width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    // Jeśli _isLoading jest true, przycisk jest nieaktywny (null)
                     onPressed: _isLoading ? null : _loginUser,
                     child: _isLoading
-                        ? const CircularProgressIndicator() // Kręciołek jak ładuje
+                        ? const CircularProgressIndicator()
                         : const Text('Zaloguj się'),
                   ),
                 ),
@@ -145,4 +157,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-} // Koniec klasy
+}

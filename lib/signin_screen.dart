@@ -14,7 +14,10 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Zaloguj się lub stwórz konto")),
+      appBar: AppBar(
+        title: const Text("Witaj w WishLister!"),
+        centerTitle: true,
+        ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(

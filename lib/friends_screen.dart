@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'side_menu.dart'; 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class FriendsScreen extends StatefulWidget {
+  const FriendsScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<FriendsScreen> createState() => _FriendsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       
-      // 3. TUTAJ PODPINAMY NASZE NOWE MENU
       drawer: const SideMenu(), 
       
       body: Padding(
@@ -28,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                'Witamy w Wishlister!',
+                'Znajomi',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),

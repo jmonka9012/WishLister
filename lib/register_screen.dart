@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart'; // Potrzebne do ograniczenia wpisywania tylko cyfr
-import 'home_screen.dart';
+import 'package:wishlister/welcome_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -16,7 +16,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _phoneController = TextEditingController();
   
   final _displayNameController = TextEditingController();
-  final _loginController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
@@ -29,7 +28,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // Nasłuchujemy teraz też zmian w polu telefonu
     _phoneController.addListener(_validateForm);
     _displayNameController.addListener(_validateForm);
-    _loginController.addListener(_validateForm);
     _emailController.addListener(_validateForm);
     _passwordController.addListener(_validateForm);
     _repeatPasswordController.addListener(_validateForm);
@@ -39,7 +37,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     bool isValid = 
         _phoneController.text.length == 9 && // Sprawdzamy czy numer ma 9 cyfr
         _displayNameController.text.isNotEmpty &&
-        _loginController.text.isNotEmpty &&
         _emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty &&
         _passwordController.text == _repeatPasswordController.text;
@@ -64,7 +61,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     // Zapisujemy w bazie
     await FirebaseFirestore.instance.collection('users').doc(uid).set({
       'displayName': _displayNameController.text,
-      'login': _loginController.text,
       'email': _emailController.text.trim(),
       'phoneNumber': fullPhoneNumber,
       'createdAt': FieldValue.serverTimestamp(),
@@ -72,11 +68,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       'isPremium': false, // Domyślnie brak premium
     });
 
-    print("Konto założone! Admin: false, Premium: false");
+    print("Konto założone!");
     
     Navigator.of(
           context,
-        ).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+        ).push(MaterialPageRoute(builder: (context) => const WelcomeScreen()));
 
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -140,14 +136,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 controller: _displayNameController,
                 decoration: const InputDecoration(
                   labelText: 'Wyświetlana nazwa',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _loginController,
-                decoration: const InputDecoration(
-                  labelText: 'Login',
                   border: OutlineInputBorder(),
                 ),
               ),
