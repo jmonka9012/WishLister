@@ -1,4 +1,4 @@
-name: wishlister
+name: Wishlister
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -18,6 +18,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.10 
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21
+  
+  adaptive_icon_background: "#81d5fc" 
+  adaptive_icon_foreground: "assets/icon/icon.png"
 
 flutter:
   uses-material-design: true
