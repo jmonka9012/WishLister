@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'friends_screen.dart';
 import 'signin_screen.dart';
+import 'settings_screen.dart';
+import 'mylist_screen.dart';
+import 'mypreferences_screen.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
@@ -37,18 +40,31 @@ class SideMenu extends StatelessWidget {
                   leading: const Icon(Icons.list),
                   title: const Text('Moja lista'),
                   onTap: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const MyListScreen(),
+                      ),
+                    );
                   },
                 ),
                 ListTile(
                   leading: const Icon(Icons.favorite),
                   title: const Text('Moje preferencje'),
-                  onTap: () {},
+                  onTap: () {
+                    // Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const MyPreferencesScreen(),
+                      ),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.people),
                   title: const Text('Znajomi'),
                   onTap: () {
+                    // Navigator.pop(context);
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const FriendsScreen(),
@@ -59,7 +75,13 @@ class SideMenu extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text('Ustawienia'),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

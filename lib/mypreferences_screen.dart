@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'side_menu.dart'; 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MyPreferencesScreen extends StatefulWidget {
+  const MyPreferencesScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MyPreferencesScreen> createState() => _MyPreferencesScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MyPreferencesScreenState extends State<MyPreferencesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wishlister"),
+        title: const Text("WishLister"),
         centerTitle: true,
       ),
       
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                'Witamy w Wishlister! To jest strona główna, w przyszłości prawdopobonie damy tu jakieś aktualności, co nowego chcą znajomi, albo widok naszej listy - zobaczymy',
+                'Moje preferencje',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),

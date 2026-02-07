@@ -17,7 +17,7 @@ class _SignInScreenState extends State<SignInScreen> {
       appBar: AppBar(
         title: const Text("Witaj w WishLister!"),
         centerTitle: true,
-        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -29,9 +29,6 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 20), // Odstęp
 
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50), // Wysokość przycisku
-                ),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -55,7 +52,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
                 child: const Text('Zaloguj się'),
               ),
-
               // Tu możesz dodać drugi przycisk do logowania później
             ],
           ),

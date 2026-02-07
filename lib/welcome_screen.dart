@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -105,7 +105,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               // 1. NAGŁÓWEK EKRANU
               const Text(
                 'Uzupełnij swój profil',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), //ds
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -113,7 +113,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               // 2. TEKST OPISOWY
               const Text(
                 'Napisz kilka słów o sobie i wymień co lubisz. Dzięki temu znajomi będą wiedzieć, jaką niespodziankę Ci sprawić jeżeli będą chcieli kupić coś spoza Twojej listy życzeń, lub będą mieli wątpliwości co do cech chcianego przez Ciebie prezentu. Możesz też zostawić te wszystkie pola puste jeżeli chcesz ich sprawdzić... ;)',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: Colors.grey), //ds
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -126,7 +126,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 decoration: const InputDecoration(
                   labelText: 'O mnie',
                   hintText: 'Np. Uwielbiam makabrę i stópki...',
-                  border: OutlineInputBorder(),
                   alignLabelWithHint: true,
                 ),
               ),
@@ -148,7 +147,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     decoration: InputDecoration(
                       labelText: 'Preferencja #${i + 1}',
                       prefixIcon: const Icon(Icons.star_border),
-                      border: const OutlineInputBorder(),
                     ),
                   ),
                 ),
@@ -160,7 +158,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _submitData,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, foregroundColor: Colors.white),
                   child: _isLoading 
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text('Zapisz i wejdź', style: TextStyle(fontSize: 18)),

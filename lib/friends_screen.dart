@@ -13,7 +13,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Wishlister"),
+        title: const Text("WishLister"),
         centerTitle: true,
       ),
       

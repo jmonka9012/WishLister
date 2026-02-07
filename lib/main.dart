@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // Potrzebne do bazy
 import 'firebase_options.dart';
 
 // Importy Twoich ekranów
+import 'theme.dart';
 import 'signin_screen.dart';
 import 'home_screen.dart';
 import 'welcome_screen.dart';
@@ -24,10 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wishlister',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
       // Czy jest zalogowany?
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
